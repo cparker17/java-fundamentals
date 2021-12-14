@@ -11,6 +11,15 @@ class ArithmeticOperators {
     public static void main(String[] args) {
 
         // write your code below
+        int a = 17;
+        int b = 7;
+
+        System.out.println(("a = " + a + " and b = " + b));
+        System.out.println("a + b = " + (a+b));
+        System.out.println("a - b = " + (a-b));
+        System.out.println("a * b = " + (a*b));
+        System.out.println("a / b = " + (a/b));
+        System.out.println("a % b = " + (a%b));
 
     }
 
