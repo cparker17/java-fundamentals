@@ -16,8 +16,9 @@ public class Exercise_03 {
 
         System.out.println("Hello World!");
 
-        // write code to print out "Check out my first program!" below
 
+        // write code to print out "Check out my first program!" below
+        System.out.println("Check out my first program!");
     }
 
 }
