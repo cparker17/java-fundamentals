@@ -9,5 +9,17 @@ package labs_examples.arrays.labs;
  */
 
 public class Exercise_04 {
+    public static void main(String[] args) {
+        int[][] array = {{2, 3, 4, 5},
+                         {7, 17},
+                         {90, 76, 4, 9, 0} };
+
+        for (int[] i : array) {
+            for (int j : i) {
+                System.out.print(j + " ");
+            }
+            System.out.println();
+        }
+    }
 
 }

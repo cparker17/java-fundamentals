@@ -1,5 +1,5 @@
 package labs_examples.arrays.labs;
-
+import java.util.*;
 /**
  *  ArrayLists
  *
@@ -10,4 +10,17 @@ package labs_examples.arrays.labs;
  *
  */
 public class Exercise_07 {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<String>();
+        list.add("Chris");
+        list.add("Alina");
+        list.add("Olivia");
+        list.add("Ethan");
+
+        if(list.contains("Ethan")) {
+            System.out.println("Ethan is in the list!");
+        }
+        System.out.println("Alina is at index #: " + list.get(1));
+        System.out.println(list.toString());
+    }
 }
