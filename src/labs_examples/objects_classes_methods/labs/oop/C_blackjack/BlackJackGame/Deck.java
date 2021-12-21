@@ -8,7 +8,9 @@ public class Deck {
     private ArrayList<Integer> usedCards = new ArrayList<>();
     Random randomNumber = new Random();
 
-    public Deck() {}
+    public Deck() {
+        populateCardDeck();
+    }
 
     public Card[] getCards() {
         return cards;

@@ -1,12 +1,17 @@
 package labs_examples.objects_classes_methods.labs.oop.C_blackjack.BlackJackGame;
 import java.util.Scanner;
 
-public class BlackjackController {
-    public static void main(String[] args) {
-        playBlackJack();
+public class BlackjackController extends Game {
+    static int gamesPlayed = 0;
+
+    public BlackjackController() {
+        gamesPlayed += 1;
     }
 
-    public static void playBlackJack() {
+    public int getGamesPlayed() {
+        return gamesPlayed;
+    }
+    public void playBlackJack() {
         //get input from user to set up player
         Scanner input = new Scanner(System.in);
         System.out.println("Please enter your name: ");
@@ -17,7 +22,6 @@ public class BlackjackController {
 
         //set up the deck of cards
         Deck deck = new Deck();
-        deck.populateCardDeck();
 
         //set up the player's hand and the dealer's hand
         Hand playerHand = new Hand();
@@ -78,14 +82,22 @@ public class BlackjackController {
             System.out.println("Both dealer and " + player.getName() + " lose.");
         } else if (playerHand.is21(playerHand.returnScore()) & !computerHand.is21(computerHand.returnScore())) {
             System.out.println("\n   Dealer wins!!!");
+            computer.updateGamesWon();
         } else if (computerHand.is21(computerHand.returnScore()) & !playerHand.is21(playerHand.returnScore())) {
             System.out.println("\n   " + player.getName() + " wins!!!");
+            player.updateGamesWon();
         } else if (playerHand.returnScore() > computerHand.returnScore()) {
             System.out.println("\n   " + player.getName() + " wins!!!");
+            player.updateGamesWon();
         } else if (computerHand.returnScore() > playerHand.returnScore()) {
             System.out.println("\n   Dealer wins!!!");
+            computer.updateGamesWon();
         } else {
             System.out.println("Both dealer and " + player.getName() + " lose.");
         }
+
+        //Print out how many games player and computer have won
+        System.out.println("Dealer has won " + computer.getGamesWon() + " games.");
+        System.out.println(player.getName() + " has won " + player.getGamesWon() + " games.");
     }
 }
