@@ -1,6 +1,8 @@
 
 Without running the code below, please tell me what will print. Why?
-
+"Parent called"
+"Child called"
+   because the parent class constructor has to be called before the subclass constructors
 
 
 
