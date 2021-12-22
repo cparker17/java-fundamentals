@@ -1,16 +1,6 @@
 package labs_examples.exception_handling.labs;
 
-import java.util.Arrays;
-
-/**
- * Exception Handling Exercise 5:
- *
- *      Demonstrate how to throw an exception.
- *
- */
-
-class Example {
-
+public class Exercise6 {
     public static void main(String[] args) {
         try {
             System.out.println(divide(7,0));
@@ -20,7 +10,14 @@ class Example {
     }
 
     public static int divide(int a, int b) throws ArithmeticException {
-        return a/b;
+        return divide_2(a,b);
     }
 
+    public static int divide_2(int a, int b) {
+        try {
+            return a/b;
+        } catch (ArithmeticException exc) {
+            throw exc;
+        }
+    }
 }
