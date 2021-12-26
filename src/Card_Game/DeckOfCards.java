@@ -18,10 +18,6 @@ public class DeckOfCards {
         populateCardDeck();
     }
 
-    public Card[] getCardDeck() {
-        return cardDeck;
-    }
-
     public void populateCardDeck() {
         int i = 0;
         for (char suit : SUITS) {
@@ -32,10 +28,6 @@ public class DeckOfCards {
         }
     }
 
-    public ArrayList<Card> getUsedCards() {
-        return usedCards;
-    }
-
     public void dealCard(CardPlayer player) {
         Random randomNumber = new Random();
         Card cardDealt;
@@ -43,7 +35,6 @@ public class DeckOfCards {
             cardDealt = cardDeck[randomNumber.nextInt(51)];
             usedCards.add(cardDealt);
             player.addCardToHand(cardDealt);
-            player.updateHandValue();
         } else {
             do {
                 cardDealt = cardDeck[randomNumber.nextInt(51)];
@@ -55,9 +46,12 @@ public class DeckOfCards {
                     }
             } while (cardDealt == null);
             player.addCardToHand(cardDealt);
-            player.updateHandValue();
             usedCards.add(cardDealt);
         }
+    }
+
+    public void resetDeck() {
+        usedCards.removeAll(usedCards);
     }
 }
 

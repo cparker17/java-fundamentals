@@ -1,5 +1,7 @@
 package labs_examples.multi_threading.labs;
 
+import labs_examples.multi_threading.labs.E1.NewThread;
+
 /**
  * Multithreading Exercise 1:
  *

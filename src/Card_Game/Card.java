@@ -3,9 +3,6 @@ package Card_Game;
 public class Card {
     private String cardFace;
     private char suit;
-    private int cardValue;
-
-    public Card() {}
 
     public Card(String cardFace, char suit) {
         this.cardFace = cardFace;
@@ -16,40 +13,22 @@ public class Card {
         return cardFace;
     }
 
-    public void setCardFace(String cardFace) {
-        this.cardFace = cardFace;
-    }
-
     public char getSuit() {
         return suit;
     }
 
-    public void setSuit(char suit) {
-        this.suit = suit;
-    }
-
     public int getCardValue() {
-        switch (cardFace) {
-            case "Ace":
-                return 1;
-            case "Two":
-                return 2;
-            case "Three":
-                return 3;
-            case "Four":
-                return 4;
-            case "Five":
-                return 5;
-            case "Six":
-                return 6;
-            case "Seven":
-                return 7;
-            case "Eight":
-                return 8;
-            case "Nine":
-                return 9;
-            default:
-                return 10;
-        }
+        return switch (cardFace) {
+            case "Ace" -> 1;
+            case "Two" -> 2;
+            case "Three" -> 3;
+            case "Four" -> 4;
+            case "Five" -> 5;
+            case "Six" -> 6;
+            case "Seven" -> 7;
+            case "Eight" -> 8;
+            case "Nine" -> 9;
+            default -> 10;
+        };
     }
 }

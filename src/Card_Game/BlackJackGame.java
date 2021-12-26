@@ -10,20 +10,13 @@ public class BlackJackGame extends CardGame implements Gambler {
     private int potValue;
     private int currentBet;
     private ArrayList<CardPlayer> playersUnder21;
-    private CardPlayer handWinner;
 
     public BlackJackGame() {
         super();
         setIsDealerCardPlayer(true);
+        playersUnder21 = new ArrayList<>();
     }
 
-    @Override
-    public void setPlayers() {
-        super.setPlayers();
-        if (isDealerCardPlayer()) {
-            players.add(new CardPlayer("Dealer"));
-        }
-    }
     public boolean getIsGambling() {
         return isGambling;
     }
@@ -95,16 +88,34 @@ public class BlackJackGame extends CardGame implements Gambler {
         }
     }
 
-    public CardPlayer getHandWinner() {
-        return handWinner;
-    }
-
+    @Override
     public void setHandWinner() {
         setPlayersUnder21();
-        for(int i = 0; i < playersUnder21.size()-1; i++) {
-            if(playersUnder21.get(i+1).getHandValue() > playersUnder21.get(i).getHandValue()) {
-                handWinner = playersUnder21.get(i+1);
-            } else handWinner = playersUnder21.get(i);
+        for(int i = 0; i < playersUnder21.size() - 1; i++) {
+            if(playersUnder21.size() == 0) {
+                System.out.println("No Winner.  Everyone busts!!!");
+            }
+            else if(playersUnder21.get(i).getHandValue() > playersUnder21.get(i+1).getHandValue()) {
+                handWinner = playersUnder21.get(i);
+            } else handWinner = playersUnder21.get(i+1);
+        }
+    }
+
+    public void setHandWinner(CardPlayer player) {
+        handWinner = player;
+    }
+
+    @Override
+    public void sortPlayersByScore() {
+        CardPlayer temp;
+        for (int i = 0; i < playersUnder21.size(); i++) {
+            for (int j = i + 1; j < playersUnder21.size(); j++) {
+                if (playersUnder21.get(i).getGamesWon() < playersUnder21.get(j).getGamesWon()) {
+                    temp = playersUnder21.get(j);
+                    playersUnder21.set(j, playersUnder21.get(i));
+                    playersUnder21.set(i, temp);
+                }
+            }
         }
     }
 
@@ -118,12 +129,8 @@ public class BlackJackGame extends CardGame implements Gambler {
         //loop through each player except dealer to see if they want more cards
         for(int i = 0; i < players.size()-1; i++) {
             int menuSelection = 0;
-            int playerNumber = 1;
             do {
-                System.out.println("Player #" + playerNumber + ":");
-                System.out.println(players.get(i).getName() + "'s hand includes:");
                 players.get(i).printHand();
-                System.out.println("Score: " + players.get(i).getHandValue());
                 System.out.println("Do you want another card?");
                 System.out.print("     Press 1 for yes and 2 for no: ");
                 menuSelection = input.nextInt();
@@ -133,32 +140,51 @@ public class BlackJackGame extends CardGame implements Gambler {
                     System.out.println(players.get(i).getName() + " holds.");
                 }
                 if (players.get(i).isHandOver21()) {
+                    players.get(i).printHand();
                     System.out.println(players.get(i).getHandValue() + "...Bust!");
+                    players.get(i).setBust(true);
                     menuSelection = -1;
                 }
-                playerNumber++;
             } while(menuSelection == 1);
         }
 
-        //loop through dealing Dealer a card if hand value is 16 or less
-        int dealerIndex = players.size() -1;
-        int dealerHandValue = players.get(dealerIndex).getHandValue();
-        if(dealerHandValue >= 16) {
-            System.out.println("Dealer's hand includes:");
-            System.out.println("Dealer's Score = " + dealerHandValue);
-            System.out.println("Dealer holds.");
+        //determine how many players are busted
+        int playersBusted = 0;
+        for(int i = 0; i < players.size() - 1; i++) {
+            if(players.get(i).isHandOver21()) {
+                playersBusted++;
+            }
         }
-        while (dealerHandValue <= 16) {
-            System.out.println("Dealer's hand includes:");
+
+        //loop through dealing Dealer a card if at least one player isn't bust
+        if(playersBusted != players.size()-1) {
+            int dealerIndex = players.size() - 1;
+            int dealerHandValue = players.get(dealerIndex).getHandValue();
+            if (dealerHandValue >= 16) {
+                players.get(dealerIndex).printHand();
+                System.out.println("Dealer holds.");
+            }
+            while (dealerHandValue <= 16) {
+                players.get(dealerIndex).printHand();
+                getCardDeck().dealCard(players.get(dealerIndex));
+                System.out.println("Dealer takes a card.");
+                dealerHandValue = players.get(dealerIndex).getHandValue();
+            }
             players.get(dealerIndex).printHand();
-            System.out.println("Dealer's Score: " + dealerHandValue);
-            getCardDeck().dealCard(players.get(dealerIndex));
-            dealerHandValue = players.get(dealerIndex).getHandValue();
+            if (dealerHandValue > 21) {
+                System.out.println("Dealer busts!!!");
+                players.get(dealerIndex).setBust(true);
+            }
+            setHandWinner();
+        } else {
+            setHandWinner(players.get(players.size()-1));
         }
-        if(dealerHandValue > 21) {
-            System.out.println("Dealer busts!!!");
-        }
-        setHandWinner();
+
+        getHandWinner().addGameWon();
         setGameWinner();
+        for (CardPlayer player : players) {
+            player.resetHand();
+        }
+        getCardDeck().resetDeck();
     }
 }

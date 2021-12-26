@@ -24,9 +24,10 @@ public class CardGameController {
             //run a game
             game.runGame();
             //Prints out the winner of the hand and the total scores
-            System.out.println("Winner of Game #" + gameNum + ": ");
+            System.out.println("\nWinner of Hand #" + gameNum + ": ");
+            System.out.println("   " + game.getHandWinner().getName());
             game.printScoreBoard();
-            System.out.println("Would you like to play another hand?");
+            System.out.println("\nWould you like to play another hand?");
             System.out.println("   1 - Play Again\n   2 - Quit");
             try {
                 menuSelection = input.nextInt();
@@ -40,6 +41,7 @@ public class CardGameController {
             gameNum++;
         } while(menuSelection == 1);
 
+        game.printScoreBoard();
         System.out.println("\n     The winner of the game is " + game.getGameWinner().getName() + "!!!");
     }
 }

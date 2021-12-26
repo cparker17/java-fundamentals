@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public class CardPlayer {
     private String name;
+    private int playerNumber;
+    private boolean isBust;
     private boolean isGambler;
     private int initialPotValue;
     private int potValue;
@@ -12,14 +14,18 @@ public class CardPlayer {
     private int handValue;
     private int gamesWon;
 
-    public CardPlayer(String name) {
+    public CardPlayer(String name, int playerNumber) {
         cardsInHand = new ArrayList<>();
         this.name = name;
+        this.playerNumber = playerNumber;
+        isBust = false;
         handValue = 0;
     }
 
-    public CardPlayer(String name, int initialPotValue) {
+    public CardPlayer(String name, int playerNumber, int initialPotValue) {
         this.name = name;
+        this.playerNumber = playerNumber;
+        isBust = false;
         this.initialPotValue = initialPotValue;
         cardsInHand = new ArrayList<>();
         handValue = 0;
@@ -31,6 +37,18 @@ public class CardPlayer {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getPlayerNumber() {
+        return playerNumber;
+    }
+
+    public boolean isBust() {
+        return isBust;
+    }
+
+    public void setBust(boolean isBust) {
+        this.isBust = isBust;
     }
 
     public boolean isGambler() {
@@ -69,25 +87,26 @@ public class CardPlayer {
         cardsInHand.add(card);
     }
     public int getHandValue() {
-        return handValue;
-    }
-
-    public void updateHandValue() {
+        handValue = 0;
         for(Card card : cardsInHand) {
             handValue += card.getCardValue();
         }
+
+        return handValue;
     }
 
     public void printHand() {
+        System.out.println("Player #" + getPlayerNumber() + ":");
+        System.out.println(getName() + "'s hand includes:");
         for(Card card : cardsInHand) {
             System.out.print(card.getCardFace());
             System.out.print(card.getSuit() + "  ");
         }
-        System.out.println();
+        System.out.println("Score: " + getHandValue());
     }
 
     public boolean isHandOver21() {
-        if(handValue > 21) {
+        if(getHandValue() > 21) {
             return true;
         } else {
             return false;
@@ -97,7 +116,11 @@ public class CardPlayer {
         return gamesWon;
     }
 
-    public void setGamesWon(int gamesWon) {
-        this.gamesWon = gamesWon;
+    public void addGameWon() {
+        gamesWon++;
+    }
+
+    public void resetHand() {
+        cardsInHand.removeAll(cardsInHand);
     }
 }

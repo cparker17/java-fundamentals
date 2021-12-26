@@ -12,6 +12,7 @@ public class CardGame {
     private int numPlayers;
     protected ArrayList<CardPlayer> players;
     private CardPlayer gameWinner;
+    protected CardPlayer handWinner;
 
     public CardGame() {
         cardDeck = new DeckOfCards();
@@ -91,28 +92,19 @@ public class CardGame {
         System.out.println("Let's set up each player...");
         for (int j = 1; j < numPlayers + 1; j++) {
             System.out.println("\nEnter name of Player #" + j + ": ");
-            player = new CardPlayer(input.next());
+            player = new CardPlayer(input.next(), j);
             players.add(player);
         }
-    }
-
-    public void sortPlayersByScore() {
-        CardPlayer temp;
-        for (int i = 0; i < players.size(); i++) {
-            for (int j = i + 1; j < players.size(); j++) {
-                if (players.get(i).getGamesWon() > players.get(j).getGamesWon())
-                {
-                    temp = players.get(i);
-                    players.set(i, players.get(j));
-                    players.set(j, temp);
-                }
-            }
+        if(isDealerCardPlayer) {
+            players.add(new CardPlayer("Dealer", players.size()+1));
         }
     }
 
-    public void setHandWinner() {}
+
+    public void sortPlayersByScore() {}
 
     public CardPlayer getGameWinner() {
+
         return gameWinner;
     }
 
@@ -123,10 +115,19 @@ public class CardGame {
 
     public void printScoreBoard() {
         sortPlayersByScore();
+        System.out.println("\nSCOREBOARD:");
         for(int i = 0; i < players.size(); i++) {
-            System.out.println("#" +  i + " -- " + players.get(i).getName() + ": " + players.get(i).getGamesWon());
+            System.out.println("Player#" + players.get(i).getPlayerNumber() + " -- "
+                    + players.get(i).getName() + ": " + players.get(i).getGamesWon());
         }
     }
 
     public void runGame() {}
+
+    public CardPlayer getHandWinner() {
+        return handWinner;
+    }
+
+    public void setHandWinner() {}
+
 }
