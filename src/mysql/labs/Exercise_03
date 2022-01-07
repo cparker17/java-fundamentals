@@ -5,15 +5,51 @@
 *   Now that you have your air travel database all set up and populated, please demonstrate how to:
 *
 *       1.) Query all flights on a specific day
+            SELECT * FROM flights where date_time = '2022-01-07 09:34:00';
 *       2.) Query all flights between two specific cities on a specific day
+            SELECT * FROM locations_destinations where start_location = 'denver' and destination = 'boston';
 *       3.) Query all passengers on a specific flight between two specific cities today
+            SELECT p.first_name, p.last_name, f.flight_id, ld.start_location, ld.destination
+            FROM tickets t
+            join passengers p on p.passenger_id = t.passenger_id
+            join flights f on t.flight_id = f.flight_id
+            join locations_destinations ld on f.location_id = ld.ld_id
+            where ld.start_location = 'denver' and ld.destination = 'boston';
 *       4.) Query the flight information for a specific passenger on a specific flight
+                SELECT f.flight_id, f.location_id, f.plane_id, f.date_time
+                from flights f
+                join tickets t on t.flight_id = f.flight_id
+                join passengers p on t.passenger_id = p.passenger_id
+                where p.first_name = 'chris' and p.last_name = 'parker';
 *       5.) Query the passenger information for a specific user on a specific flight yesterday
+            SELECT p.passenger_id, p.first_name, p.last_name, p.address, p.email, p.meal_id
+            FROM passengers p
+            join tickets t on t.passenger_id = p.passenger_id
+            join flights f on t.flight_id = f.flight_id
+            where f.flight_id = 2 and p.passenger_id = 3;
 *       6.) Query the number of flights between two specific cities this week, month, and year
+                SELECT COUNT(f.flight_id) from flights f
+                join locations_destinations ld on ld.ld_id = f.location_id
+                where ld.start_location = 'denver' and ld.destination = 'boston'
+                and f.date_time >= '2022-01-01 00:00:00' and f.date_time < '2022-02-01 00:00:00';
 *       7.) Query the number of passengers that travelled between two specific cities today, this week, month and year
+            SELECT COUNT(p.passenger_id) from passengers p
+            join tickets t on t.passenger_id = p.passenger_id
+            join flights f on f.flight_id = t.flight_id
+            join locations_destinations ld on ld.ld_id = f.location_id
+            where ld.start_location = 'denver' and ld.destination = 'boston'
+            and f.date_time >= '2022-01-01 00:00:00' and f.date_time < '2022-02-01 00:00:00';
 *       8.) Insert records for new flights between airports
+                insert into flights
+                (location_id, plane_id, date_time)
+                values(1, 4, '2022-01-01 00:00:00');
 *       9.) Insert records for new tickets and passengers on specific flights
+            INSERT INTO `airline`.`passengers` (`passenger_id`, `first_name`, `last_name`, `address`, `email`, `meal_id`) VALUES ('7', 'jake', 'pritchard', '24 rose ct', 'jp@gmail.com', '2');
+            INSERT INTO `airline`.`tickets` (`flight_id`, `passenger_id`, `issue_date`, `seat_number`) VALUES ('4', '7', '2022-12-25 00:00:00', '17');
 *       10.) Update meal preference (or something similar) for a specific passenger on a specific flight
+            update passengers
+            set meal_id = 3
+            where passenger_id = 2;
 *       Bonus: Have some fun - get creative - what else can you do? Flex those SQL muscles and show us what
 *           you've got! :)
 *
